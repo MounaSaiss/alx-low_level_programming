@@ -1,22 +1,30 @@
-#include "main.h"
+#include <stdio.h>
 
-/**
- * set_bit - sets the value of a bit to 1.
- * at a given index.
- * @n: pointer of an unsigned long int.
- * @index: index of the bit.
- *
- * Return: 1 if it worked, -1 if it didn't.
- */
-int set_bit(unsigned long int *n, unsigned int index)
-{
-	unsigned int m;
+int set_bit(unsigned long int *n, unsigned int index) {
+    // Check if the index is valid
+    if (index >= sizeof(unsigned long int) * 8) {
+        return -1;  // Error: Index out of range
+    }
 
-	if (index > 63)
-		return (-1);
+    // Set the bit at the given index to 1
+    *n |= (1UL << index);
 
-	m = 1 << index;
-	*n = (*n | m);
+    return 1;  // Success
+}
 
-	return (1);
+int main() {
+    unsigned long int num = 42;  // Example number
+    unsigned int index_to_set = 3;  // Example index
+
+    // Call the set_bit function
+    int result = set_bit(&num, index_to_set);
+
+    // Check the result
+    if (result == 1) {
+        printf("Bit at index %u set to 1. New value: %lu\n", index_to_set, num);
+    } else {
+        printf("Error: Index out of range\n");
+    }
+
+    return 0;
 }
